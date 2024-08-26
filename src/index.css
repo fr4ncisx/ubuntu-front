@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+:root {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: var(--blanco);
+  color: var(--negro);
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /*Varibles de los colores utilizados*/
+  --blanco: #fdfdfd;
+  --grisClaro: #eaeaea;
+  --grisMedio: #d2d2d2;
+  --grisOscuro: #6e6f70;
+  --negro: #090909;
+  --azul: #093c59;
+  --verde: #226516;
+  --exitoGestionada: #1d9129;
+  --noGestionada: #b86b11;
+  --error:#bc1111;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.nsm7Bb-HzV7m-LgbsSe-MJoBVe{
+  background-color: var(--azul);
+}
