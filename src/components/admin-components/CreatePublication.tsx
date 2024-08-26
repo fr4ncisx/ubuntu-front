@@ -175,9 +175,9 @@ const CreatePublication: React.FC<CreatePublicationProps> = ({ isEdit = false })
       };
 
       console.log(isEdit ? "Cuerpo de la solicitud al editar publicación:" : "Cuerpo de la solicitud al crear publicación:", requestBody);
-      let response;
+
       if (isEdit && id) {
-        response = await apiClient.put(`/publications/edit/${id}`, requestBody, {
+        await apiClient.put(`/publications/edit/${id}`, requestBody, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -186,7 +186,7 @@ const CreatePublication: React.FC<CreatePublicationProps> = ({ isEdit = false })
         setIsSuccess(true);
         setIsModalOpen(true);
       } else {
-        response = await apiClient.post('/publications/create', requestBody, {
+        await apiClient.post('/publications/create', requestBody, {
           headers: {
             Authorization: `Bearer ${token}`
           }

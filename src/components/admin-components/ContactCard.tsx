@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
 interface contactCardInterface{
