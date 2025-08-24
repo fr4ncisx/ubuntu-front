@@ -48,7 +48,7 @@ const CategoriesChatbot = () => {
     } catch (error) {
       console.error("Error al realizar la petición:", error);
     } finally {
-      setLoading(false); // Ocultar spinner
+      setLoading(false);
     }
   };
 

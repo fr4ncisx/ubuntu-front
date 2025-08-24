@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IconButton, Typography, Paper, Slide } from "@mui/material";
-import bot from "../../../../public/bot.png";
+import bot from "/bot.png";
 import InteractiveChatbot from "./InteractiveChatbot";
 
 const Chatbot: React.FC = () => {

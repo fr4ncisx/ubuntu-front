@@ -19,7 +19,7 @@ import apiClient from "../../scripts/axiosConfig";
 import { useAuth } from "../../context/AuthContext";
 import Modal from "../visitors-components/Modal";
 
-const AdminProfile = () => {
+const VisitorProfile = () => {
   const { updateProfileImage } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState(
@@ -610,4 +610,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default VisitorProfile;

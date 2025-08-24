@@ -15,7 +15,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../../assets/images/ubuntu-logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth, Role } from "./../../context/AuthContext";
 
 interface NavLink {
@@ -32,10 +32,26 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const [profileImage, setProfileImage] = useState<string | undefined>(
+    user?.imagen
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setMenuAnchor(event.currentTarget);
   };
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const updatedUser = JSON.parse(storedUser);
+        setProfileImage(updatedUser.imagen);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   useEffect(() => {
     if (menuOpen) {
@@ -87,7 +103,7 @@ const Navbar = () => {
   const userLinks: NavLink[] = [
     { text: "Inicio", path: "/" },
     { text: "Microemprendimientos", path: "/microentrepreneaurship" },
-    { text: "Publicaciones", path: "/publications" }
+    { text: "Publicaciones", path: "/publications" },
   ];
 
   const adminLinks: NavLink[] = [
@@ -97,6 +113,12 @@ const Navbar = () => {
     { text: "Solicitudes de Contacto", path: "/admin/dashboard/contact" },
     { text: "Publicaciones", path: "/admin/publications" },
   ];
+
+  useEffect(() => {
+    if (user) {
+      setProfileImage(user.imagen);
+    }
+  }, [user]);
 
   return (
     <div
@@ -138,18 +160,19 @@ const Navbar = () => {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Avatar
                   onClick={handleClick}
-                  src={user.imagen || ""}
+                  src={user?.imagen}
+                  alt="Profile"
                   style={{
                     cursor: "pointer",
-                    backgroundColor: user.imagen
+                    backgroundColor: profileImage
                       ? "transparent"
                       : "var(--negro)",
                     border: "1px solid #59BA47",
                     marginRight: "-3px",
                   }}
                 >
-                  {!user.imagen &&
-                    getInitials(user.nombre || "", user.apellido || "")}
+                  {!profileImage &&
+                    getInitials(user?.nombre || "", user?.apellido || "")}
                 </Avatar>
                 <Menu
                   anchorEl={menuAnchor}
@@ -164,9 +187,15 @@ const Navbar = () => {
                   }}
                 >
                   <MenuItem
-                    onClick={handleClose}
-                    component={Link}
-                    to="/profile"
+                    onClick={() => {
+                      handleClose();
+                      const userRole = user?.rol;
+                      if (userRole === Role.ADMIN) {
+                        navigate("/admin-profile");
+                      } else if (userRole === "USER") {
+                        navigate("/user-profile");
+                      }
+                    }}
                     sx={{
                       "&:hover": {
                         backgroundColor: "var(--grisOscuro)",
@@ -240,7 +269,12 @@ const Navbar = () => {
             {!user && (
               <ListItem
                 onClick={() => handleNavigation("/login")}
-                sx={{ cursor: "pointer", padding: "16px", textAlign: "center", alignSelf: "baseline" }}
+                sx={{
+                  cursor: "pointer",
+                  padding: "16px",
+                  textAlign: "center",
+                  alignSelf: "baseline",
+                }}
               >
                 <Typography
                   style={{

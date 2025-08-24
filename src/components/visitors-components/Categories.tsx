@@ -1,15 +1,34 @@
-import { Box, Typography, Button, CardActionArea } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  CardActionArea,
+  Modal as ModalComponent,
+} from "@mui/material";
 import economiaSocialIcon from "../../assets/images/economia-social.png";
 import { useNavigate } from "react-router";
 import agroecologiaIcon from "../../assets/images/agroecologia.png";
 import conservacionIcon from "../../assets/images/conservacion.png";
 import empresasIcon from "../../assets/images/empresas.png";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import ShareLocationOutlinedIcon from '@mui/icons-material/ShareLocationOutlined';
+import { useState } from "react";
 
 const Categories = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const handleClick = (cat: string) => {
-    navigate(`/microentrepreneaurship/${cat}`)
-  }
+    navigate(`/microentrepreneaurship/${cat}`);
+  };
+
+  const handleNavigateToNearby = () => {
+    handleClose();
+    navigate("/microentrepreneurships/nearby");
+  };
+
   return (
     <div style={{ backgroundColor: "#FDFDFE" }}>
       <Box
@@ -18,8 +37,9 @@ const Categories = () => {
           color: "#090909",
           textAlign: "center",
           margin: "0 auto",
-          padding: "16px",
-          maxWidth: "700px",
+          maxWidth: "300px",
+          marginTop: 4,
+          marginBottom: 4,
         }}
       >
         <Typography
@@ -33,10 +53,10 @@ const Categories = () => {
             textAlign: "center",
           }}
         >
-          Categorías
+          Categorías de Microemprendimientos
         </Typography>
         <CardActionArea
-          onClick={() => handleClick('eco')}
+          onClick={() => handleClick("eco")}
           sx={{
             backgroundColor: "#EAEAEA",
             margin: "16px 0",
@@ -98,7 +118,7 @@ const Categories = () => {
         </CardActionArea>
 
         <CardActionArea
-          onClick={() => handleClick('agro')}
+          onClick={() => handleClick("agro")}
           sx={{
             backgroundColor: "#EAEAEA",
             margin: "16px 0",
@@ -160,7 +180,7 @@ const Categories = () => {
         </CardActionArea>
 
         <CardActionArea
-          onClick={() => handleClick('cons')}
+          onClick={() => handleClick("cons")}
           sx={{
             backgroundColor: "#EAEAEA",
             margin: "16px 0",
@@ -222,7 +242,7 @@ const Categories = () => {
         </CardActionArea>
 
         <CardActionArea
-          onClick={() => handleClick('emp')}
+          onClick={() => handleClick("emp")}
           sx={{
             backgroundColor: "#EAEAEA",
             margin: "16px 0",
@@ -284,33 +304,77 @@ const Categories = () => {
         </CardActionArea>
 
         <Button
-        onClick={()=>navigate("/microentrepreneaurship")}
+          onClick={handleOpen}
           variant="contained"
           sx={{
             backgroundColor: "#093C59",
             color: "#FFFFFF",
-            marginTop: "16px",
+            marginTop: 4,
             borderRadius: "100px",
-            width: "184px",
+            width: "100%",
             height: "40px",
             textTransform: "none",
             boxShadow: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
+          <TravelExploreIcon sx={{ marginRight: "4px" }} />
           <Typography
             variant="body1"
             sx={{
               fontFamily: "Lato",
-              fontWeight: 500,
+              fontWeight: 600,
               fontSize: "16px",
               lineHeight: "20px",
               color: "white",
               textAlign: "center",
             }}
           >
-            Ver más Categorías
+            Microemprendimientos Cercanos
           </Typography>
         </Button>
+
+        <ModalComponent
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+        >
+            <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '80%',
+                bgcolor: 'background.paper',
+                border: 'none',
+                borderRadius: '28px',
+                boxShadow: 24,
+                p: 4
+            }}>
+                <Box sx={{ textAlign: 'center', paddingBottom: '1rem' }}>
+                    <ShareLocationOutlinedIcon sx={{ color: "#004aad", fontSize: '70px' }} />
+                </Box>
+                <Typography  variant="h5" component="h2" fontWeight={500} sx={{ textAlign: 'center', }}>
+                ¿Deseas activar la Geolocalización?
+                </Typography>
+                <Typography  variant="h6" sx={{ mt: 2, textAlign: 'left' }}>
+                Para mostrarte los microemprendimientos cercanos, necesitamos acceder a tu ubicación.
+                </Typography>
+                <Box sx={{ textAlign: 'right' }}>
+                    
+                    <Button onClick={handleClose} variant="text" sx={{ mt: 2, textTransform: 'none' }}>
+                        Cancelar
+                    </Button>
+
+                    <Button onClick={handleNavigateToNearby} variant="text" sx={{ mt: 2, textTransform: 'none' }}>
+                        Aceptar
+                    </Button>
+                </Box>
+            </Box>
+        </ModalComponent>
       </Box>
     </div>
   );
