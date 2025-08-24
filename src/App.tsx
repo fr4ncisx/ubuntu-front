@@ -19,6 +19,8 @@ import MicroDataView from "./components/admin-components/MicroDataView";
 import AdminPublications from "./components/admin-components/AdminPublications";
 import CreatePublication from "./components/admin-components/CreatePublication";
 import AdminProfile from "./components/admin-components/AdminProfile";
+import VisitorProfile from "./components/visitors-components/VisitorProfile";
+import GeoMicroResults from "./components/visitors-components/GeoMicroResults";
 
 const clientId = "423544897196-0atoc6jpdekc6dkkpbk03gq7la9qdjin.apps.googleusercontent.com";
 
@@ -27,7 +29,9 @@ function AppContent() {
   const userRole = user?.rol;
   const location = useLocation();
 
-  const showChatbot = location.pathname !== "/login" && userRole !== Role.ADMIN;
+  const showChatbot = location.pathname !== "/login" && 
+                      location.pathname !== "/user-profile" && 
+                      userRole !== Role.ADMIN;
 
   return (
     <div className="App">
@@ -42,9 +46,11 @@ function AppContent() {
         <Route path="/microentrepreneaurship/:subcategory" element={<MicroentrepreneurshipPage />} />
         <Route path="/publications" element={<PublicationsPage />} />
         <Route path="/contact/:id" element={<ContactPage />} />
+        <Route path="/user-profile" element={<VisitorProfile />} />
+        <Route path="/microentrepreneurships/nearby" element={<GeoMicroResults />} />
         <Route element={<ProtectedRoute roles={[Role.ADMIN]} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/profile" element={<AdminProfile />} />
+          <Route path="/admin-profile" element={<AdminProfile />} />
           <Route path='/admin/dashboard/contact' element={<ContactRequestPage />} />
           <Route path='/admin/dashboard/contact/:id' element={<ContactRequestPage />} />
           <Route path="/admin/micro" element={<AdminMicroentrepreneurships />} />
