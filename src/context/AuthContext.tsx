@@ -4,6 +4,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  useMemo,
 } from "react";
 import { decodeToken } from "react-jwt";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ interface AuthContextType {
   loading: boolean;
   login: (token: string) => void;
   logout: () => void;
+  updateProfileImage: (newImage: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,7 +52,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
     const decoded = decodeToken<DecodedToken>(token.replace("Bearer ", ""));
     if (decoded) {
-      const { iss, jti, ...userWithoutIssAndJti } = decoded;
+      const { ...userWithoutIssAndJti } = decoded;
       localStorage.setItem("user", JSON.stringify(userWithoutIssAndJti));
       setUser(userWithoutIssAndJti);
     }
@@ -64,8 +66,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     navigate("/login");
   };
 
+  const updateProfileImage = (newImage: string) => {
+    if (user) {
+      const updatedUser = { ...user, imagen: newImage };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+    }
+  };
+
+  const contextValue = useMemo(() => (
+    {
+      authToken,
+      user,
+      loading,
+      login,
+      logout,
+      updateProfileImage
+    }), [authToken, user, loading, login, logout, updateProfileImage]);
+
   return (
-    <AuthContext.Provider value={{ authToken, user, loading, login, logout }}>
+    <AuthContext.Provider
+      value={contextValue}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -5,7 +5,6 @@ export enum Role {
 }
 
 interface DecodedToken {
-  iss?: string;
   sub?: string;
   nombre?: string;
   apellido?: string;
@@ -13,7 +12,6 @@ interface DecodedToken {
   imagen?: string;
   rol?: Role;
   exp?: number;
-  jti?: string;
 }
 export type { DecodedToken };
 
