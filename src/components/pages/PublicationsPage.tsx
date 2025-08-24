@@ -24,7 +24,7 @@ const PublicationsPage: React.FC = () => {
   useEffect(() => {
     const fetchPublications = async () => {
       try {
-        const response = await apiClient.get('/publications/find-all?ordered=true');
+        const response = await apiClient.get('/publications/find-all?active=true');
         setPublications(response.data);
       } catch (error) {
         console.error('Error al obtener las publicaciones:', error);
